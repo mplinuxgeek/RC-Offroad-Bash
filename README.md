@@ -3,6 +3,8 @@
 A browser game about driving 1:8 and 1:6 scale RC trucks over a dirt track. It uses Three.js for rendering and a custom
 rigid-body physics solver with per-wheel suspension, tyre grip, a nitro or brushless powertrain and a damage model.
 
+**[Play in your browser](https://mplinuxgeek.github.io/RC-Offroad-Bash/)**
+
 See [FEATURES.md](FEATURES.md) for the full feature list and [FUTURE.md](FUTURE.md) for the roadmap.
 
 ## Run

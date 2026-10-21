@@ -108,7 +108,7 @@ document.body.insertAdjacentHTML('beforeend', `<div id="bgfx"></div><canvas id="
 <div id="menu">
   <!-- Main Menu View -->
   <div class="card" id="main-view">
-    <div class="brand">v1.3</div><h1>RC Offroad <b>Bash</b></h1><div class="sub">Custom Physics &amp; FreeCAD Visuals</div>
+    <h1>RC Offroad <b>Bash</b></h1><div class="sub">Custom Physics &amp; FreeCAD Visuals</div>
     <div class="tsel" id="tsel"><button class="arrow" id="tprev" aria-label="Previous truck">◀</button><div class="tn"><span class="tl">TRUCK</span> <b id="tname"></b></div><button class="arrow" id="tnext" aria-label="Next truck">▶</button></div>
     <div class="tsel" id="msel"><button class="arrow" id="mprev" aria-label="Previous map">◀</button><div class="tn"><span class="tl">MAP</span> <b id="mname"></b></div><div class="chips" id="mcount" style="margin:0"></div><button class="arrow" id="mnext" aria-label="Next map">▶</button></div>
     <div class="desc" id="sdesc"></div><div class="chips" id="chips"></div>
