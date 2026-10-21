@@ -5,8 +5,14 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      level:
+        description: Version bump level
+        type: choice
+        options: [patch, minor, major]
+        default: patch
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
@@ -20,6 +26,16 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      # Every push to main bumps the version (patch by default, see tools/bump.mjs) and commits it back.
+      # Pushes made with GITHUB_TOKEN do not start another run, so this does not loop.
+      - name: Bump version
+        if: ${{ !startsWith(github.event.head_commit.message, 'Bump version') }}
+        run: |
+          v=$(node tools/bump.mjs "${{ inputs.level || 'patch' }}")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Bump version to $v"
+          git push
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
