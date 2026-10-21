@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Map editor - RC Offroad Bash</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<link rel="stylesheet" href="ui.css">
+<script type="importmap">{"imports":{"three":"./lib/three.module.min.js"}}</script>
+<style>
+html,body{position:fixed;width:100%;touch-action:none}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block}
+.bar{position:fixed;left:0;right:0;top:0;display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:8px 10px;background:var(--panel);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:5}
+.bar b{font:700 18px var(--hud);letter-spacing:.06em;text-transform:uppercase;margin-right:6px}
+.me-btn,.bar select,.bar input,.side select,.side input[type=text],.side input[type=number]{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--line);border-radius:7px;padding:6px 10px;font:600 13px var(--ui)}
+.me-btn{cursor:pointer}.me-btn:hover{background:rgba(255,255,255,.16)}.me-btn.go{background:linear-gradient(#ff9a3a,#e86f00);border-color:transparent;color:#fff}.me-btn.on{outline:2px solid var(--accent2)}
+.side{position:fixed;top:54px;bottom:30px;width:272px;background:var(--panel);backdrop-filter:blur(10px);border:1px solid var(--line);z-index:4;overflow:auto;padding:10px}
+#pal{left:8px;border-radius:12px}#insp{right:8px;border-radius:12px}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}.tabs button{padding:4px 9px;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.card{border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.05);padding:4px;cursor:pointer;text-align:center;font:600 11px var(--ui)}
+.card img{width:100%;border-radius:6px;display:block;background:#8fb4d8}.card.sel{outline:2px solid var(--accent2)}.card small{color:var(--dim);display:block;font-weight:500}
+.f{display:grid;grid-template-columns:70px 1fr;gap:6px;align-items:center;margin:5px 0;font:600 12px var(--ui);color:var(--dim)}.f input{width:100%;box-sizing:border-box}
+.hint{position:fixed;left:0;right:0;bottom:0;padding:5px 12px;font:500 12px var(--ui);color:var(--dim);background:rgba(10,14,22,.7);z-index:5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+h4{margin:10px 0 4px;font:700 13px var(--hud);letter-spacing:.08em;text-transform:uppercase;color:var(--accent2)}
+@media(max-width:820px){.side{width:44vw}#insp{top:auto;height:42vh}#pal{bottom:auto;height:42vh}}
+</style></head>
+<body><canvas id="c"></canvas>
+<div class="bar"><b>Map editor</b><button class="me-btn" id="new">New</button><select id="open"></select><button class="me-btn" id="save">Save</button><button class="me-btn" id="delmap" title="Delete current or saved map" style="color:#ff7777;border-color:rgba(255,80,80,.4)">Delete</button><button class="me-btn" id="exp">Export</button><button class="me-btn" id="imp">Import</button><input type="file" id="file" accept=".json" style="display:none">
+<span style="width:8px"></span><button class="me-btn" id="undo">Undo</button><button class="me-btn" id="redo">Redo</button><select id="snap"><option value="0">Snap off</option><option value="1">Snap 1 m</option><option value="3" selected>Snap 3 m</option><option value="6">Snap 6 m</option></select><button class="me-btn" id="jsnap" title="Snap open ends together (J)">Join-snap</button><button class="me-btn" id="view">Top view</button>
+<span style="flex:1"></span><button class="me-btn" id="gen">Generate…</button><button class="me-btn go" id="play">▶ Play</button><a class="me-btn" href="index.html" style="text-decoration:none;color:inherit">Menu</a></div>
+<div class="side" id="pal"><div class="tabs" id="tabs"></div><div class="grid" id="cards"></div></div>
+<div class="side" id="insp"></div>
+<div class="hint" id="hint"></div>
+<script type="module">
+import { KIT_BUILDER } from './js/kit.js';
+if (KIT_BUILDER) await import('./js/mapedit.js');
+else document.body.innerHTML = '<div style="position:fixed;inset:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;font:600 18px var(--ui)">The map editor is switched off for now.<a class="me-btn" href="index.html" style="text-decoration:none;color:inherit">Menu</a></div>';
+</script></body></html>

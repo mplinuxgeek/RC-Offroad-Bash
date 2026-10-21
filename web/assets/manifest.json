@@ -1,0 +1,19 @@
+{
+  "meshes": {},
+  "tex": [],
+  "snd": [
+    "break_pipe.wav",
+    "break_roof.wav",
+    "break_wheel.wav",
+    "checkpoint_pass.wav",
+    "engine_nitro_loop.wav",
+    "false_start.wav",
+    "finish_pass.wav",
+    "new_best.wav",
+    "start_amber.wav",
+    "start_green.wav",
+    "tyre_skid_loop.wav"
+  ],
+  "stunts": [],
+  "replays": []
+}

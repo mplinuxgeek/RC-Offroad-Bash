@@ -1,0 +1,60 @@
+{
+  "_doc": "Truck profile. Every key is optional (missing keys fall back to js/trucks.js DEFAULTS). Units: metres, seconds, m/s, m/s^2. See README.md in this folder.",
+  "name": "EighthMT (1:8 monster truck)",
+  "model": "model",
+  "spheres": "collision_spheres.json",
+
+  "mass": {
+    "_doc": "wheel/body = relative mass weights: raise body vs wheel for a heavier chassis / less unsprung mass. drop = metres the body mass sits below its collision spheres (lower COG, harder to flip). bodyZ = metres to shift the body mass forward(+)/back(-): moves weight distribution (more front weight = more steering grip, less wheelie). Absolute kg does not matter here: accelerations are commanded per unit mass and springs scale with weight.",
+    "wheel": 0.315, "body": 4.25, "drop": 0.75, "bodyZ": 0
+  },
+
+  "suspension": {
+    "_doc": "droop = how far (m) each axle hangs below ride height when its wheels leave the ground (visual only: wheels, axle, links and shocks extend; raise for long-travel trucks). sag = static compression, travel = extra stroke before the bump stop (m). springRate scales the spring (1 = M*g/4/sag). bound = compression damping and rebound = extension damping as a fraction of critical (rebound > bound is normal; raise rebound to stop bouncing). antiRoll couples left/right wheels. restitution = bounce off hard landings (wheels / body).",
+    "sag": 0.17, "travel": 0.30, "droop": 0.14, "springRate": 0.82,
+    "bound": 0.85, "rebound": 1.15,
+    "antiRoll": 8.5,
+    "invertedSoftening": 0.70, "invertedBound": 1.5, "invertedRebound": 1.9,
+    "restitution": 0.28, "restitutionBody": 0.20
+  },
+
+  "air": {
+    "_doc": "Mid-air pitch control. throttlePitch = nose-up angular acceleration with throttle (rad/s^2), brakePitch = nose-down with brake; *Max = cap on the pitch rate (rad/s).",
+    "throttlePitch": 3.0, "throttlePitchMax": 3.7,
+    "brakePitch": 3.9, "brakePitchMax": 3.0
+  },
+
+  "drive": {
+    "_doc": "accel = launch acceleration factor, topSpeed m/s, brake* = braking decel (m/s^2) per brake upgrade level (nitro) / electric, launchBoost = extra thrust multiplier at standstill fading to 1 at launchBoostKmh.",
+    "accel": 0.24, "topSpeed": 18,
+    "brakeNitro": [8.5, 10, 11], "brakeElectric": 10.5,
+    "launchBoost": 4, "launchBoostKmh": 50, "brakeGripBoost": 1.2
+  },
+
+  "gearing": {
+    "_doc": "nitro = one entry per transmission level (1, 2, 3 speed). up/down = gear change speeds (m/s) 1->2, 2->3; launchMu = extra traction in 1st; g1Boost = 1st gear torque boost; fade = speed (m/s) where launch help fades out; dip = torque dip at a shift (s); pb = narrow power band (single speed).",
+    "nitro": [
+      { "n": 1, "up": [999, 999], "down": [999, 999], "launchMu": 1.0, "g1Boost": 1.0, "fade": 12, "dip": 0, "pb": true },
+      { "n": 2, "up": [10, 999], "down": [8.5, 999], "launchMu": 1.7, "g1Boost": 1.35, "dip": 0.12 },
+      { "n": 3, "up": [9, 15], "down": [7.5, 13], "launchMu": 2.2, "g1Boost": 1.65, "dip": 0.12 }
+    ],
+    "electric": { "launchMu": 2.0, "fade": 10, "dip": 0 }
+  },
+
+  "steering": { "_doc": "max = full-lock angle in degrees at the stock steering level (steering upgrades add -1/0/+1/+2 on top; try 28-35 for a tighter turning circle); rate = response when steering (0-1 per step); returnRate = self-centring when released; speedLock = speed (m/s) where lock halves; minLock = fraction of lock kept at very high speed.", "max": 25, "rate": 0.30, "returnRate": 0.24, "speedLock": 18, "minLock": 0.28 },
+  "tyres": {
+    "_doc": "grip = longitudinal (drive/brake) friction coefficient; sideGrip = lateral (cornering) friction. Raise sideGrip for more bite, lower for drifting. front*/rear* multiply per axle: lower rearSideGrip = oversteer/loose tail, lower frontSideGrip = understeer. sideGripCap = ceiling on the sideGrip gain from tyre upgrades. sideStiffness = how fast sideways slip is killed (0.5 slidey .. 1 on rails). frictionCircle = lateral and longitudinal share one grip budget (sliding while braking). bodyGrip = friction of body panels on the ground. baseGrip = reference value the upgrade multiplier is scaled from.",
+    "grip": 1.25, "sideGrip": 0.80, "baseGrip": 0.82,
+    "frontGrip": 1, "rearGrip": 1, "frontSideGrip": 0.95, "rearSideGrip": 0.98,
+    "sideGripCap": 1.15, "sideStiffness": 0.80, "frictionCircle": true, "bodyGrip": 0.35
+  },
+  "stability": { "_doc": "groundDamp/airDamp = per-step roll-rate damping on ground/in air (lower = more damping); antiRoll = extra roll damping when upright; wheelieDamp = pitch damping; articulation* = axle rock limit/speed; hill* = hill-climb grip and assist.", "groundDamp": 0.985, "airDamp": 0.995, "antiRoll": 0.8, "wheelieDamp": 0.988, "articulationMax": 0.32, "articulationRate": 3.5, "hillGrip": 4, "hillAssist": 110, "liftoffPitchDamp": 0.94, "axleYawDamp": 0.92, "rollLever": 0.5 },
+  "resistance": { "rolling": 1.2, "drag": 0.0006 },
+
+  "cabSpring": [
+    { "_doc": "Body/cab bounce on its mounts, one entry per shock upgrade level. wt/wr = heave and tilt frequency (Hz), ze = damping ratio (raise to reduce body bounce), roll = roll lean gain, scale = visual shock size.", "style": "single", "wt": 1.9, "wr": 2.1, "ze": 0.85, "roll": 1.45, "scale": 1.0 },
+    { "style": "twin", "wt": 2.1, "wr": 2.3, "ze": 0.95, "roll": 1.30, "scale": 1.0 },
+    { "style": "single", "wt": 2.3, "wr": 2.5, "ze": 0.95, "roll": 1.18, "scale": 1.45 },
+    { "style": "single", "wt": 2.5, "wr": 2.7, "ze": 1.10, "roll": 1.05, "scale": 1.8 }
+  ]
+}

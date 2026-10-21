@@ -1,0 +1,17 @@
+{
+  "name": "rc-offroad-bash",
+  "version": "1.0.0",
+  "description": "Browser RC offroad game with a custom rigid-body physics solver",
+  "main": "index.js",
+  "scripts": {
+    "start": "./run.sh",
+    "test": "for f in tests/drive tests/jump tests/turn tests/brushless tests/bounce tests/wobble; do echo \"== $f\"; node $f.mjs || exit 1; done"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "three": "^0.170.0"
+  }
+}

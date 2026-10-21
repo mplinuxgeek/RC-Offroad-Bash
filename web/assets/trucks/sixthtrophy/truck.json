@@ -1,0 +1,219 @@
+{
+  "_doc": "Truck profile. Every key is optional (missing keys fall back to js/trucks.js DEFAULTS). Units: metres, seconds, m/s, m/s^2. See README.md in this folder.",
+  "name": "SixthTrophy (1:6 trophy truck)",
+  "model": "model",
+  "spheres": "collision_spheres.json",
+  "mass": {
+    "_doc": "wheel/body = relative mass weights: raise body vs wheel for a heavier chassis / less unsprung mass. drop = metres the body mass sits below its collision spheres (lower COG, harder to flip). bodyZ = metres to shift the body mass forward(+)/back(-): moves weight distribution (more front weight = more steering grip, less wheelie). Absolute kg does not matter here: accelerations are commanded per unit mass and springs scale with weight. sixthtrophy: 9.8 kg without battery.",
+    "wheel": 0.4,
+    "body": 9.4,
+    "drop": 0.5,
+    "bodyZ": 0
+  },
+  "suspension": {
+    "_doc": "droop = how far (m) each axle hangs below ride height when its wheels leave the ground (visual only: wheels, axle, links and shocks extend; raise for long-travel trucks). sag = static compression, travel = extra stroke before the bump stop (m). springRate scales the spring (1 = M*g/4/sag). bound = compression damping and rebound = extension damping as a fraction of critical (rebound > bound is normal; raise rebound to stop bouncing). antiRoll couples left/right wheels. restitution = bounce off hard landings (wheels / body).",
+    "tierMode": "relative",
+    "sag": 0.23,
+    "travel": 0.36,
+    "droop": 0.45,
+    "droopFront": 0.3,
+    "droopRear": 0.45,
+    "springRate": 0.7,
+    "bound": 0.8,
+    "rebound": 0.65,
+    "antiRoll": 2.5,
+    "invertedSoftening": 0.7,
+    "invertedBound": 1.5,
+    "invertedRebound": 1.9,
+    "restitution": 0.1,
+    "restitutionBody": 0.08
+  },
+  "partTiers": {
+    "_doc": "per-truck garage names for upgrade tiers (same shape as the PARTS entries in upgrades.js: [name, description], null for tier 0)",
+    "battery": [["3S LiPo · 80A ESC", "11.1V, included with the conversion kit"], ["4S LiPo · 120A ESC", "14.8V"], ["6S LiPo · 150A ESC", "22.2V high-discharge pack"], ["8S LiPo · 200A ESC", "29.6V dual battery trays"]],
+    "motor": [null, ["750Kv brushless", "Stock 1/6 trophy-truck motor: ~40 mph on 6S, ~56 mph on 8S"], ["800Kv brushless", "Faster wind, geared up: ~45 mph on 6S, ~70 mph on 8S"], ["1000Kv brushless", "High-Kv speed motor: ~51 mph on 6S, ~77 mph on 8S"]]
+  },
+  "air": {
+    "throttlePitch": 0.42,
+    "throttlePitchMax": 0.72,
+    "brakePitch": 1.45,
+    "brakePitchMax": 1.2
+  },
+  "drive": {
+    "_doc": "accel = launch acceleration factor, topSpeed m/s, brake* = braking decel (m/s^2) per brake upgrade level (nitro) / electric, launchBoost = extra thrust multiplier at standstill fading to 1 at launchBoostKmh. speedTable = top speed in mph, one row per brushless motor (750Kv, 800Kv, 1000Kv), one column per battery (3S, 4S, 6S, 8S), used instead of batterySpeed when present. batteryPower: per battery tier [3S,4S,6S,8S]; 6S ~40 mph (18 m/s), 8S ~55 mph (25 m/s) at stock motor.",
+    "accel": 0.3,
+    "topSpeed": 19,
+    "brakeNitro": [
+      8.5,
+      10,
+      11
+    ],
+    "brakeElectric": 10.5,
+    "launchBoost": 2,
+    "launchBoostKmh": 50,
+    "brakeGripBoost": 1.2,
+    "speedTable": [[23, 30, 40, 56], [26, 34, 45, 70], [29, 39, 51, 77]],
+    "batterySpeed": [
+      0.5,
+      0.75,
+      1.0,
+      1.39
+    ],
+    "batteryPower": [
+      0.8,
+      1.0,
+      1.4,
+      1.9
+    ]
+  },
+  "gearing": {
+    "_doc": "nitro = one entry per transmission level (1, 2, 3 speed). up/down = gear change speeds (m/s) 1->2, 2->3; launchMu = extra traction in 1st; g1Boost = 1st gear torque boost; fade = speed (m/s) where launch help fades out; dip = torque dip at a shift (s); pb = narrow power band (single speed).",
+    "nitro": [
+      {
+        "n": 1,
+        "up": [
+          999,
+          999
+        ],
+        "down": [
+          999,
+          999
+        ],
+        "launchMu": 1.0,
+        "g1Boost": 1.0,
+        "fade": 12,
+        "dip": 0,
+        "pb": true
+      },
+      {
+        "n": 2,
+        "up": [
+          14,
+          999
+        ],
+        "down": [
+          12,
+          999
+        ],
+        "launchMu": 1.7,
+        "g1Boost": 1.35,
+        "dip": 0.12
+      },
+      {
+        "n": 3,
+        "up": [
+          12.5,
+          21
+        ],
+        "down": [
+          10.5,
+          18.5
+        ],
+        "launchMu": 2.2,
+        "g1Boost": 1.65,
+        "dip": 0.12
+      }
+    ],
+    "electric": {
+      "launchMu": 2.0,
+      "fade": 10,
+      "dip": 0
+    }
+  },
+  "steering": {
+    "_doc": "max = full-lock angle in degrees at the stock steering level (steering upgrades add -1/0/+1/+2 on top; try 28-35 for a tighter turning circle); rate = response when steering (0-1 per step); returnRate = self-centring when released; speedLock = speed (m/s) where lock halves; minLock = fraction of lock kept at very high speed; counter = auto counter-steer gain on the slide angle (max 12 deg), latG = grip-limited lock in g (the lock never asks for more cornering than this, so the nose plows instead of the tail spinning out; omit for none), landRecover = seconds for steering authority to return after touchdown (the wheels also centre in the air; omit to disable).",
+    "max": 32,
+    "rate": 0.3,
+    "returnRate": 0.24,
+    "speedLock": 60,
+    "minLock": 0.9,
+    "landRecover": 0.5, "counter": 2.5
+  },
+  "tyres": {
+    "_doc": "grip = longitudinal (drive/brake) friction coefficient; sideGrip = lateral (cornering) friction. Raise sideGrip for more bite, lower for drifting. front*/rear* multiply per axle: lower rearSideGrip = oversteer/loose tail, lower frontSideGrip = understeer. brakeTurnIn = brake weight transfer: braking adds this much front side grip and takes 0.6 of it off the rear, so a brake tap turns the nose in (omit for none), sideGripCap = ceiling on the sideGrip gain from tyre upgrades. sideStiffness = how fast sideways slip is killed (0.5 slidey .. 1 on rails). frictionCircle = lateral and longitudinal share one grip budget (sliding while braking). bodyGrip = friction of body panels on the ground. baseGrip = reference value the upgrade multiplier is scaled from.",
+    "grip": 1.25,
+    "sideGrip": 0.92,
+    "baseGrip": 0.82,
+    "frontGrip": 1.0,
+    "rearGrip": 1.0,
+    "frontSideGrip": 1.2,
+    "rearSideGrip": 2.0,
+    "brakeTurnIn": 0.7, "sideGripCap": 1.15,
+    "sideStiffness": 0.8,
+    "frictionCircle": true,
+    "bodyGrip": 0.35
+  },
+  "stability": {
+    "_doc": "groundDamp/airDamp = per-step roll-rate damping on ground/in air (lower = more damping); antiRoll = extra roll damping when upright; wheelieDamp = pitch damping; articulation* = axle rock limit/speed; hill* = hill-climb grip and assist.",
+    "groundDamp": 0.985,
+    "airDamp": 0.995,
+    "antiRoll": 0.8,
+    "wheelieDamp": 0.988,
+    "articulationMax": 0.32,
+    "articulationRate": 3.5,
+    "hillGrip": 4,
+    "hillAssist": 110,
+    "airPitchDamp": 0.97,
+    "airYawDamp": 0.96,
+    "impactGripCap": 2,
+    "rollLever": 0.05,
+    "liftoffPitchDamp": 0.92,
+    "axleYawDamp": 0.8
+  },
+  "resistance": {
+    "rolling": 1.2,
+    "drag": 0.0006
+  },
+  "cabSpring": [
+    {
+      "_doc": "Body/cab bounce on its mounts, one entry per shock upgrade level. wt/wr = heave and tilt frequency (Hz), ze = damping ratio (raise to reduce body bounce), roll = roll lean gain, scale = visual shock size.",
+      "style": "single",
+      "wt": 1.9,
+      "wr": 2.1,
+      "ze": 0.85,
+      "roll": 1.45,
+      "scale": 1.0
+    },
+    {
+      "style": "twin",
+      "wt": 2.1,
+      "wr": 2.3,
+      "ze": 0.95,
+      "roll": 1.3,
+      "scale": 1.0
+    },
+    {
+      "style": "single",
+      "wt": 2.3,
+      "wr": 2.5,
+      "ze": 0.95,
+      "roll": 1.18,
+      "scale": 1.45
+    },
+    {
+      "style": "single",
+      "wt": 2.5,
+      "wr": 2.7,
+      "ze": 1.1,
+      "roll": 1.05,
+      "scale": 1.8
+    }
+  ],
+  "drivetrain": {
+    "_doc": "Full-time 4WD, adjustable front/centre/rear diffs and power bleed. frontBias 0.5 even; diff* 0 open..1 locked.",
+    "frontBias": 0.45,
+    "diffFront": 0.2,
+    "diffCentre": 0.3,
+    "diffRear": 0.4
+  },
+  "launch": {
+    "pitchCapDeg": 1.5,
+    "squat": 1.5,
+    "squatMs": 16,
+    "spinRef": 0.35
+  },
+  "damage": {
+    "_doc": "cabResist = how much harder the cab shell is to wreck than a monster truck (1 = same); the bumper, hood and rear fender pods break off well before it",
+    "cabResist": 1.5
+  }
+}
