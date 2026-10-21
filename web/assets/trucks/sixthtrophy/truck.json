@@ -157,6 +157,8 @@
     "airYawDamp": 0.96,
     "impactGripCap": 2,
     "rollLever": 0.05,
+    "rollFadeSpeed": 6,
+    "rollRight": 3,
     "liftoffPitchDamp": 0.92,
     "axleYawDamp": 0.8
   },

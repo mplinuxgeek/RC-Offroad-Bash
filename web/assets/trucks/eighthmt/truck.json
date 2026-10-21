@@ -48,7 +48,7 @@
     "frontGrip": 1, "rearGrip": 1, "frontSideGrip": 0.95, "rearSideGrip": 0.98,
     "sideGripCap": 1.15, "sideStiffness": 0.80, "frictionCircle": true, "bodyGrip": 0.35
   },
-  "stability": { "_doc": "groundDamp/airDamp = per-step roll-rate damping on ground/in air (lower = more damping); antiRoll = extra roll damping when upright; wheelieDamp = pitch damping; articulation* = axle rock limit/speed; hill* = hill-climb grip and assist.", "groundDamp": 0.985, "airDamp": 0.995, "antiRoll": 0.8, "wheelieDamp": 0.988, "articulationMax": 0.32, "articulationRate": 3.5, "hillGrip": 4, "hillAssist": 110, "liftoffPitchDamp": 0.94, "axleYawDamp": 0.92, "rollLever": 0.5 },
+  "stability": { "_doc": "groundDamp/airDamp = per-step roll-rate damping on ground/in air (lower = more damping); antiRoll = extra roll damping when upright; wheelieDamp = pitch damping; articulation* = axle rock limit/speed; hill* = hill-climb grip and assist.", "groundDamp": 0.985, "airDamp": 0.995, "antiRoll": 0.8, "wheelieDamp": 0.988, "articulationMax": 0.32, "articulationRate": 3.5, "hillGrip": 4, "hillAssist": 110, "liftoffPitchDamp": 0.94, "axleYawDamp": 0.92, "rollLever": 0.5, "rollFadeSpeed": 6, "rollRight": 3 },
   "resistance": { "rolling": 1.2, "drag": 0.0006 },
 
   "cabSpring": [
