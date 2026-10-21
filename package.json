@@ -1,6 +1,6 @@
 {
   "name": "rc-offroad-bash",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Browser RC offroad game with a custom rigid-body physics solver",
   "main": "index.js",
   "scripts": {
